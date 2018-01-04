@@ -1,9 +1,4 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 class AlexaSkill {
 	public function __construct() {
 		$this->intents = [];
@@ -61,14 +56,17 @@ class AlexaSkill {
 		$intent = $req->request->intent->name;
 
 		if(array_key_exists($intent, $this->intents)) {
+			$session = $req->session->attributes;
+			$response = $this->intents[$intent]($req, $session);
+
 			$res = [
 				"version" => "1.0",
-				"sessionAttributes" => [],
-				"response" => $this->intents[$intent]($req)
+				"response" => $response,
+				"sessionAttributes" => $session
 			];
 
 			$debug = ob_get_clean();
-			file_put_contents("/tmp/alexa/debug.txt", $debug);
+			file_put_contents("/tmp/alexa-debug.txt", $debug);
 
 			header("Content-Type: application/json");
 			echo json_encode($res);
