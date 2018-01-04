@@ -10,7 +10,7 @@ Alexa Skill PHP Wrapper
 
 ``` php
 <?php
-require("AlexaSkill");
+require("AlexaSkill.php");
 
 // create a skill
 $skill = new AlexaSkill();
