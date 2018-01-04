@@ -1,6 +1,7 @@
 <?php
 class AlexaSkill {
-	public function __construct() {
+	public function __construct($version = "0.1") {
+		$this->version = $version;
 		$this->intents = [];
 	}
 
@@ -60,7 +61,7 @@ class AlexaSkill {
 			$response = $this->intents[$intent]($req, $session);
 
 			$res = [
-				"version" => "1.0",
+				"version" => $this->version,
 				"response" => $response,
 				"sessionAttributes" => $session
 			];
